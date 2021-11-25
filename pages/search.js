@@ -53,7 +53,7 @@ const BackButton = tw.img`
 h-12 cursor-pointer
 `
 const InputContainer = tw.div`
-bg-white flex items-center px-4 mb-2
+bg-white flex items-center px-4 mb-2 
 `
 const FromToIcons = tw.div`
 w-10 flex flex-col mr-2 items-center
@@ -75,7 +75,7 @@ flex flex-col flex-1
 `
 
 const Input = tw.input`
-h-10 bg-gray-200 my-2 rounded-2 p-2 outline-none border-none
+h-10 bg-gray-200 my-2 rounded-lg p-2 outline-none border-none
 `
 
 const PlusIcon = tw.img`
@@ -91,6 +91,6 @@ bg-gray-400 w-10 h-10 p-2 rounded-full mr-2
 `
 
 const ConfirmButtonContainer = tw.div`
-bg-black mt-3 mx-4 py-3 px-4 text-white text-2xl text-center cursor-pointer
+bg-black mt-4 mx-8 py-3 px-4 text-white text-2xl text-center cursor-pointer rounded-3xl
 `
 
