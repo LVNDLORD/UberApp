@@ -1,14 +1,21 @@
-import React from 'react'
+import { useState } from 'react'
 import tw from 'tailwind-styled-components'
 import Link from 'next/link'
 
 const Search = () => {
+
+    const [pickup, setPickup] = useState("");
+    const [dropoff, setDropoff] = useState("");
+
+
+    console.log(pickup);
+    console.log(dropoff);
     return (
         <Wrapper>
             {/* button Container */}
             <ButtonContainer>
                 <Link href="/" passHref>
-                <BackButton src='https://img.icons8.com/ios-filled/50/000000/left.png' />
+                    <BackButton src='https://img.icons8.com/ios-filled/50/000000/left.png' />
                 </Link>
             </ButtonContainer>
             {/* input container  */}
@@ -20,11 +27,18 @@ const Search = () => {
                 </FromToIcons>
 
                 <InputBoxes>
-                    <Input placeholder="Enter pickup location"/>
-                    <Input placeholder="Where to?"/>
+                    <Input placeholder="Enter pickup location"
+                        value={pickup}
+                        onChange={(e)=> setPickup(e.target.value)}
+                     /> {/*using useState to save data from input and pass into confirm page to display on the map */}
+
+                    <Input placeholder="Where to?"
+                        value={dropoff}
+                        onChange={(e)=> setDropoff(e.target.value)}
+                    />
                 </InputBoxes>
 
-                <PlusIcon src="https://img.icons8.com/ios/50/000000/plus-math.png"/>
+                <PlusIcon src="https://img.icons8.com/ios/50/000000/plus-math.png" />
             </InputContainer>
             {/* saved places */}
             <SavedPlaces>
@@ -32,10 +46,17 @@ const Search = () => {
                 Saved Places
             </SavedPlaces>
             {/* confirm location */}
-            <ConfirmButtonContainer>
-                Confirm Locations
-            </ConfirmButtonContainer>
-
+            <Link href={{
+                pathname: "/confirm",
+                query: { //Query parameter - data we pass in to the link and which appears in url
+                    pickup: pickup,
+                    dropoff: dropoff
+                }
+            }} passHref>
+                <ConfirmButtonContainer>
+                    Confirm Locations
+                </ConfirmButtonContainer>
+            </Link>
         </Wrapper>
     )
 }
@@ -91,6 +112,6 @@ bg-gray-400 w-10 h-10 p-2 rounded-full mr-2
 `
 
 const ConfirmButtonContainer = tw.div`
-bg-black mt-4 mx-8 py-3 px-4 text-white text-2xl text-center cursor-pointer rounded-3xl
+bg-black mt-4 mx-8 py-3 px-4 text-white text-2xl text-center cursor-pointer 
 `
 
