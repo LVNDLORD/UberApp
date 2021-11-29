@@ -1,8 +1,27 @@
-import React, {useEffect, useState} from 'react'
+
+import React, { useEffect, useState } from 'react'
 import tw from 'tailwind-styled-components'
 import { carList } from '../data/carList'
 
-const RideSelector = () => {
+const RideSelector = ({ pickupCoordinates, dropoffCoordinates }) => {
+    const [rideDuration, setRideDuration] = useState(0); // calculating the price
+    // taking the number of seconds from pickup to dropoff and multiply by multiplier
+
+    //eslintreact-hooks/exhaustive-deps
+    useEffect(() => {
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+        rideDuration = fetch(
+            `https://api.mapbox.com/directions/v5/mapbox/driving/${pickupCoordinates[0]}, ${pickupCoordinates[1]}; ${dropoffCoordinates[0]}, ${dropoffCoordinates[1]}
+        ?access_token=pk.eyJ1IjoibXJza2lwZXI5NiIsImEiOiJja3dkdHJkbXYxMjg3MnZxa3ZoOWp2bml4In0.W6ExHMOj2xBD6kuRbQKOfQ`)
+            .then((res => res.json()))// whatever the response is get the json file
+            .then(data => {
+
+                setRideDuration(data.routes[0].duration / 100)
+                // route 0 to pick the first one give by api.
+            })
+
+    }, [pickupCoordinates, dropoffCoordinates]);// <= if we dont put these and coordinates change, the page will not show the updated version. Thats why we put dependency array
+    //first arg - anonymous function, second - dependencies 
     return (
         <Wrapper>
             <Title>Choose a ride, or swipe up for more</Title>
@@ -14,7 +33,7 @@ const RideSelector = () => {
                             <Service>{car.service}</Service>
                             <Time>5 min away</Time>
                         </CarDetails>
-                        <Price>$24.00</Price>
+                        <Price>{'€' + (rideDuration * car.multiplier).toFixed(2)}</Price>
                     </Car>
                 ))}
 
@@ -23,7 +42,7 @@ const RideSelector = () => {
         </Wrapper>
     )
 }
-
+//
 export default RideSelector
 
 const CarDetails = tw.div`

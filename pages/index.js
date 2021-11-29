@@ -1,11 +1,29 @@
-import { useEffect } from 'react';
-import Head from 'next/head'
-import Image from 'next/image'
+import { useEffect, useState } from 'react';
 import tw from 'tailwind-styled-components'
 import Map from './components/Map'
 import Link from 'next/link'
+import { auth } from '../firebase'
+import { onAuthStateChanged, signOut } from 'firebase/auth';
+import { useRouter } from 'next/router' // to navigate and go back a page
 
 export default function Home() {
+
+  const [user, setUser] = useState(null)
+  const router = useRouter()
+
+  useEffect(() => {
+    return onAuthStateChanged(auth, user => { // firebase function detecting state changes if you log in or out
+      if (user) { // actual firebase google user and has properties to be able to display name, email, access token and profile pic
+        setUser({
+          name: user.displayName,
+          photoUrl: user.photoURL,
+        })
+      } else {
+        setUser(null)
+        router.push('/login')
+      }
+    });// listener if user is logged in or not
+  })
 
   return (
     <Wrapper>
@@ -15,8 +33,11 @@ export default function Home() {
         <Header>
           <UberLogo src="https://i.ibb.co/84stgjq/uber-technologies-new-20218114.jpg" />
           <Profile>
-            <Name>Andrew D</Name>
-            <UserImage src="https://img-14.stickers.cloud/packs/d9d46b40-6d4b-4f8e-958b-6294ed53ab8a/webp/e76e4501-0f59-474d-87ec-bcb03ae7f69a.webp" />
+            <Name>{user && user.name}</Name>
+            <UserImage
+              src={user && user.photoUrl}
+              onClick={() => signOut(auth)}
+            />
           </Profile>
           {/* proble in link href */}
         </Header>
@@ -71,15 +92,15 @@ flex items-center
 `
 
 const Name = tw.div`
-mr-4 w-20 text-sm
+mr-4 w-30 text-sm font-semibold
 `
 
 const UserImage = tw.img`
-h-12 w-12 rounded-full border border-gray-200 p-px
+h-12 w-12 rounded-full border border-gray-200 p-px cursor-pointer
 `
 
 const ActionButtons = tw.div`
-  flex cursor-pointer
+  flex cursor-pointer font-semibold
 `
 
 const ActionButton = tw.div`
