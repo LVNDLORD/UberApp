@@ -1,3 +1,23 @@
+# Uber app demo using Next.js MapBox, Tailwind and Firebase
+
+-Sign in with Google account
+
+-Pick a ride
+
+-Choose pickup location and destination points
+
+-Choose a car type among those available
+
+-both locations are displayed on the map along with the prices that correspond to the car type.
+
+-sign out from account by clicking the Google profile image
+
+Screenshots
+![img](https://i.imgur.com/CcfO57u.png)
+![img](https://i.imgur.com/hZWQbYC.png)
+![img](https://i.imgur.com/L8fyBYT.png)
+![img](https://i.imgur.com/iIIOrSh.png)
+
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 ## Getting Started
